@@ -25,7 +25,7 @@ public class CallBGenerico implements retrofit2.Callback<String>{
 
     @Override
     public void onResponse(Call <String> call, Response<String > response) {
-
+        JSONArray equipos=null;
         if(response.isSuccessful()){
             String respuestaGenerica = response.body();
             String ncadena=respuestaGenerica.substring(1,respuestaGenerica.length()-1);
@@ -35,7 +35,7 @@ public class CallBGenerico implements retrofit2.Callback<String>{
             try {
                 jsonArr = new JSONArray(ncadena);
                 //jsonObject1 = new JSONObject(ncadena);
-               // Log.d("respuesta", "hola el json es: " + jsonObject1.get("respuestaXml"));
+               Log.d("respuesta", "hola el json es: " + jsonArr.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -56,8 +56,28 @@ public class CallBGenerico implements retrofit2.Callback<String>{
 
             XmlToJson xmlToJson = new XmlToJson.Builder(tabla.getXmlTabla()).build();
             JSONObject jsonObject = xmlToJson.toJson();
+            try {
+                Log.d("respuesta", "hola el json es: " + jsonObject.get("root"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                 equipos = jsonObject.getJSONObject("root").getJSONObject("equipos").getJSONArray("equipo");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                Log.d("equipo array ", "hola el json es: " + equipos.toString(3));
 
+                for (int i=0 ; i<equipos.length();i++)
+                      {JSONObject jsonObject2= equipos.getJSONObject(i);
+                      String s = jsonObject2.getString("alias");
+                          Log.d("equipo alias ", "el valor es: " + s);
 
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             /*List<TorneoDetalle> torneoDetalles = Arrays.asList(clicks);
             Log.d("respuesta", "hola el json es: " + torneoDetalles.get(1).getTorneo().getPais().getNombrePais()  );
@@ -75,12 +95,12 @@ public class CallBGenerico implements retrofit2.Callback<String>{
             Log.d("respuesta","tamaño de la respuesta"+ torneos.size() + "primer id del torneo 1 " + id );*/
 
 
-            Gson gson1 = new Gson();
+           /* Gson gson1 = new Gson();
             Root rootC ;
 
             rootC = gson1.fromJson(jsonObject.toString(),Root.class);
             Log.d("respuesta","tamaño de la respuesta: " + rootC.getRoot().getEquipos().getEquipo().get(0).getAlias() );// jsonObject.toString()
-
+*/
 
 
         }
