@@ -42,7 +42,8 @@ public class CallBGenerico implements retrofit2.Callback<String>{
             TorneoDetalle clicks[] = gson.fromJson(respuestaGenerica, TorneoDetalle[].class);*/
             RespuestaGnerica tabla = null;
         Gson gson= new Gson();
-            tabla  = gson.fromJson(respuestaGenerica, RespuestaGnerica.class);
+            Log.d("respuesta", "hola el json es: " + ncadena);
+            tabla  = gson.fromJson(ncadena, RespuestaGnerica.class);
 
             XmlToJson xmlToJson = new XmlToJson.Builder(tabla.getRespuestaXml()).build();
             JSONObject jsonObject = xmlToJson.toJson();

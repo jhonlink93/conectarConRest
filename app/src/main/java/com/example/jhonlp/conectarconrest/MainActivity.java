@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
        String a ="http://otri.sabiofutbol.com/serviciosRest/torneos/";
        String s = "http://otri.sabiofutbol.com/torneo/tablaClasificacion/?torneoDetalleId=26&callback=";
        String b = "http://otri.sabiofutbol.com/consulta/preguntaleSabioMovil/?tiempoMaximo=10&tipoBusqueda=all&solucionesMaximo=3&torneoDetalleId=26&listaSuposiciones=[{\"tipo\":%221%22,%22comparador%22:%22myi%22,%22local%22:%22Leones%22,%22posicion%22:%228%22}]&listaDistribucion=[]&callback=";
-       retrofit2.Call<String> call = ApiAdapterRetro.getApiService().getTabla(b);
+       retrofit2.Call<String> call = ApiAdapterRetro.getApiService().getTabla(s);
         CallBGenerico callB = new CallBGenerico();
         call.enqueue(callB);
 
