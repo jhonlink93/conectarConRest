@@ -32,6 +32,11 @@ public class CallBGenerico implements retrofit2.Callback<String>{
             String ncadena=respuestaGenerica.substring(1,respuestaGenerica.length()-1);
           //  String prueba = "[{\"xmlTabla\": \"<?xml version=\\\"1.0\\\" ?>\\n<!--\\nhttps://resultados.as.com/resultados/futbol/mundial/2018/calendario/grupos_f\\nhttps://resultados.as.com/resultados/futbol/mundial/2018/clasificacion/grupos_f\\n-->\\n<root>\\n<numEquipos>4</numEquipos>\\n<equipos>\\n<equipo><nombre>Alemania</nombre><alias>Alemania</alias></equipo>\\n<equipo><nombre>M\\u00e9xico</nombre><alias>M\\u00e9xico</alias></equipo>\\n<equipo><nombre>Suecia</nombre><alias>Suecia</alias></equipo>\\n<equipo><nombre>Corea del Sur</nombre><alias>Corea del Sur</alias></equipo>\\n</equipos>\\n<numFechas>3</numFechas>\\n<fechas>\\n<fecha><num>1</num><partido><local>Alemania</local><visitante>M\\u00e9xico</visitante></partido><partido><local>Suecia</local><visitante>Corea del Sur</visitante></partido></fecha><fecha><num>2</num><partido><local>Alemania</local><visitante>Suecia</visitante></partido><partido><local>Corea del Sur</local><visitante>M\\u00e9xico</visitante></partido></fecha><fecha><num>3</num><partido><local>Corea del Sur</local><visitante>Alemania</visitante></partido><partido><local>M\\u00e9xico</local><visitante>Suecia</visitante></partido></fecha>\\n</fechas>\\n<puntosIniciales>\\n<puntaje><equipo>Alemania</equipo><puntos>0</puntos></puntaje>\\n<puntaje><equipo>M\\u00e9xico</equipo><puntos>0</puntos></puntaje>\\n<puntaje><equipo>Suecia</equipo><puntos>0</puntos></puntaje>\\n<puntaje><equipo>Corea del Sur</equipo><puntos>0</puntos></puntaje>\\n</puntosIniciales>\\n</root>\\n\"}]";
             JSONArray jsonArr = null;
+            try {
+                jsonArr = new JSONArray(ncadena);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             JSONObject jsonObject1 =null;
 
 
@@ -40,30 +45,71 @@ public class CallBGenerico implements retrofit2.Callback<String>{
 /*
             Gson gson = new Gson();
             TorneoDetalle clicks[] = gson.fromJson(respuestaGenerica, TorneoDetalle[].class);*/
-            RespuestaGnerica tabla = null;
-        Gson gson= new Gson();
-            Log.d("respuesta", "hola el json es: " + ncadena);
-            tabla  = gson.fromJson(ncadena, RespuestaGnerica.class);
+//
+//             RespuestaGnerica tabla = null;
+//            Gson gson = new Gson();
+//            Log.d("respuesta", "hola el json es: " + ncadena);
+//            tabla = gson.fromJson(ncadena, RespuestaGnerica.class);
+//
+//            XmlToJson xmlToJson = new XmlToJson.Builder(tabla.getRespuestaXml()).build();
+//            JSONObject jsonObject = xmlToJson.toJson();
+//            try {
+//                Log.d("respuesta", "hola el json es: " + jsonObject.get("root"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                equipos = jsonObject.getJSONObject("root").getJSONObject("equipos").getJSONArray("equipo");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                Log.d("equipo array ", "hola el json es: " + equipos.toString(3));
+//
+//                for (int i = 0; i < equipos.length(); i++) {
+//                    JSONObject jsonObject2 = equipos.getJSONObject(i);
+//                    String s = jsonObject2.getString("alias");
+//                    Log.d("equipo alias ", "el valor es: " + s);
+//
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
 
-            XmlToJson xmlToJson = new XmlToJson.Builder(tabla.getRespuestaXml()).build();
+
+
+
+             Tabla tabla = null;
+            Gson gson = new Gson();
+            Log.d("respuesta", "hola el json es: " + ncadena);
+
+
+
+            try {
+                tabla = gson.fromJson(jsonArr.get(0).toString(), Tabla.class);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            XmlToJson xmlToJson = new XmlToJson.Builder(tabla.getXmlTabla()).build();
             JSONObject jsonObject = xmlToJson.toJson();
             try {
-                Log.d("respuesta", "hola el json es: " + jsonObject.get("root"));
+                Log.d("convertido", "convertido en Json: " + jsonObject.get("root"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                 equipos = jsonObject.getJSONObject("root").getJSONObject("equipos").getJSONArray("equipo");
+                equipos = jsonObject.getJSONObject("root").getJSONObject("puntosIniciales").getJSONArray("puntaje");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
                 Log.d("equipo array ", "hola el json es: " + equipos.toString(3));
 
-                for (int i=0 ; i<equipos.length();i++)
-                      {JSONObject jsonObject2= equipos.getJSONObject(i);
-                      String s = jsonObject2.getString("alias");
-                          Log.d("equipo alias ", "el valor es: " + s);
+                for (int i = 0; i < equipos.length(); i++) {
+                    JSONObject jsonObject2 = equipos.getJSONObject(i);
+                    String s = jsonObject2.getString("alias");
+                    Log.d("equipo alias ", "el valor es: " + s);
 
                 }
             } catch (JSONException e) {
